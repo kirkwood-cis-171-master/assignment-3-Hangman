@@ -28,7 +28,9 @@ public class MenuState extends State {
 
     @Override
     public void onClick(MouseEvent e) {
-
+        if(e.getClickCount() == 2) {
+            setCurrentState(new GameState());
+        }
     }
 
     @Override
