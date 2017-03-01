@@ -29,6 +29,30 @@ public class GameState extends State {
         } else {
             g.drawString(userGuessesAsString(),100,100);
         }
+
+        //Arm
+        if (numberOfWrongGuesses() > 0) {
+            g.drawLine(400, 225, 400 + 50, 225);
+        }
+
+        //Body
+        g.drawLine(425,280,425,200);
+
+        //right leg
+        g.drawLine(425,280,425-22,280+50);
+
+        //left leg
+        g.drawLine(425,280,425+22,280+50);
+
+        //head
+        g.drawOval(400,225-76,50,50);
+
+
+
+    }
+
+    private int numberOfWrongGuesses() {
+        return 1;
     }
 
     private String userGuessesAsString() {
