@@ -10,7 +10,9 @@ import java.util.ArrayList;
  */
 public class GameState extends State {
 
-    private ArrayList<Character> keyChar = new ArrayList<>();;
+    private String correctAnswer = "Dog";
+    private ArrayList<Character> incorrectGuesses = new ArrayList<>();
+    private ArrayList<Character> correctGuesses = new ArrayList<>();
 
     @Override
     public void init() {
@@ -30,42 +32,57 @@ public class GameState extends State {
             g.drawString(userGuessesAsString(),100,100);
         }
 
-        //Arm
+        //Head
         if (numberOfWrongGuesses() > 0) {
-            g.drawLine(400, 225, 400 + 50, 225);
+            g.drawOval(400, 225 - 76, 50, 50);
         }
 
         //Body
-        g.drawLine(425,280,425,200);
+        if (numberOfWrongGuesses() > 1) {
+            g.drawLine(425, 280, 425, 200);
+        }
 
-        //right leg
-        g.drawLine(425,280,425-22,280+50);
+        //arm
+        if (numberOfWrongGuesses() > 2) {
+            g.drawLine(400, 225, 400 + 50, 225);
+        }
 
         //left leg
-        g.drawLine(425,280,425+22,280+50);
+        if (numberOfWrongGuesses() > 3) {
+            g.drawLine(425, 280, 425 + 22, 280 + 50);
+        }
 
-        //head
-        g.drawOval(400,225-76,50,50);
-
-
-
+        //right leg
+        if (numberOfWrongGuesses() > 4) {
+            g.drawLine(425, 280, 425 - 22, 280 + 50);
+        }
     }
 
     private int numberOfWrongGuesses() {
-        return 1;
+        return incorrectGuesses.size();
     }
 
     private String userGuessesAsString() {
         String x = "";
-        for( char y : keyChar) {
+
+        for( char y : incorrectGuesses) {
             x = x + y;
         }
 
+        for( char y : correctGuesses) {
+            x = x + y;
+        }
         return x;
     }
 
     private Boolean userHasNotMadeAnyGuesses() {
-        return keyChar.size() == 0;
+        if (incorrectGuesses.size() != 0) {
+            return false;
+        } else if (correctGuesses.size() != 0) {
+            return false;
+        } else {
+            return true;
+        }
     }
 
     @Override
@@ -80,9 +97,39 @@ public class GameState extends State {
 
     @Override
     public void onKeyRelease(KeyEvent e) {
-        keyChar.add(e.getKeyChar());
-        System.out.println(keyChar);
 
+        //add to incorrect or correct list
+        // if not one of desired characters
+        //    add to incorrect list
+        // else
+        //    add it to correct list
+
+        Character userGuess = e.getKeyChar();
+
+        if (oneofDesiredCharacters(userGuess)) {
+            addToCorrectList(userGuess);
+        } else {
+            addToIncorrectList(userGuess);
+        }
+
+    }
+
+    private void addToCorrectList(Character userGuess) {
+        correctGuesses.add(userGuess);
+    }
+
+    private void addToIncorrectList(Character userGuess) {
+        incorrectGuesses.add(userGuess);
+    }
+
+    private boolean oneofDesiredCharacters(Character userGuess) {
+        String correctAnswer_ = "Dog";
+        for (Character c : correctAnswer_.toCharArray()) {
+            if (c.equals(userGuess)) {
+                return true;
+            }
+        }
+        return false;
     }
 
 
