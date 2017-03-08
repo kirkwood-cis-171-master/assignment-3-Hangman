@@ -29,7 +29,23 @@ public class GameState extends State {
         if(userHasNotMadeAnyGuesses()) {
             g.drawString("Welcome to hangman", 100, 100);
         } else {
-            g.drawString(userGuessesAsString(),100,100);
+            g.drawString(userGuessesAsString(),100,200);
+        }
+
+        int numberOfLettersInWord = 3;
+        int width = 20;
+        for (int i = 0; i < numberOfLettersInWord; i++) {
+           int xModifier = i * 25;
+           String letter = getLetter(i);
+           if (userHasGuessedLetter(letter)) {
+               g.drawString(letter,100+xModifier+8,140-5);
+
+           }
+            //if userHasGuessed{i}Letter
+            //   print first letter
+            //if userHasGuessedSecondLetter
+            //   print second letter
+            g.drawLine(100+xModifier,140,100+width+xModifier,140);
         }
 
         //Head
@@ -58,6 +74,16 @@ public class GameState extends State {
         }
     }
 
+    private String getLetter(int i) {
+        return correctAnswer.substring(i,i+1);
+
+    }
+
+    private boolean userHasGuessedLetter(String letter) {
+        Character c = Character.toUpperCase(letter.charAt(0));
+        return correctGuesses.contains(c);
+    }
+
     private int numberOfWrongGuesses() {
         return incorrectGuesses.size();
     }
@@ -69,11 +95,9 @@ public class GameState extends State {
             x = x + y;
         }
 
-        for( char y : correctGuesses) {
-            x = x + y;
-        }
         return x;
     }
+
 
     private Boolean userHasNotMadeAnyGuesses() {
         if (incorrectGuesses.size() != 0) {
@@ -105,6 +129,11 @@ public class GameState extends State {
         //    add it to correct list
 
         Character userGuess = e.getKeyChar();
+        //if not a letter
+        //   exit the funtion early
+        if (!Character.isAlphabetic(userGuess)) {
+            return;
+        }
 
         if (oneofDesiredCharacters(userGuess)) {
             addToCorrectList(userGuess);
@@ -115,7 +144,7 @@ public class GameState extends State {
     }
 
     private void addToCorrectList(Character userGuess) {
-        correctGuesses.add(userGuess);
+        correctGuesses.add(Character.toUpperCase(userGuess));
     }
 
     private void addToIncorrectList(Character userGuess) {
@@ -123,9 +152,10 @@ public class GameState extends State {
     }
 
     private boolean oneofDesiredCharacters(Character userGuess) {
-        String correctAnswer_ = "Dog";
-        for (Character c : correctAnswer_.toCharArray()) {
-            if (c.equals(userGuess)) {
+
+        for (Character c : correctAnswer.toCharArray()) {
+
+            if (c.equals(userGuess) || c.equals(Character.toUpperCase(userGuess))) {
                 return true;
             }
         }
