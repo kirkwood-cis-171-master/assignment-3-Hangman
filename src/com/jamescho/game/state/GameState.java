@@ -41,11 +41,7 @@ public class GameState extends State {
                g.drawString(letter,100+xModifier+8,140-5);
 
            }
-            //if userHasGuessed{i}Letter
-            //   print first letter
-            //if userHasGuessedSecondLetter
-            //   print second letter
-            g.drawLine(100+xModifier,140,100+width+xModifier,140);
+           g.drawLine(100+xModifier,140,100+width+xModifier,140);
         }
 
         //Head
