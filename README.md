@@ -1,7 +1,5 @@
 # Awesome Hangman Extreme Version 2 Service Pack 1 Update 5
 
-Due March 31, 2017
-
 |   Improvements    |   Criteria    |   Embelisments    |
 | ------------- | ------------- | ------------- |
 | | Assignment not submitted on time -10 points | |
